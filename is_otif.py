@@ -9,6 +9,7 @@ from tools.translate import _
 import netsvc
 
 
+
 class is_otif_cause(osv.osv):
     _name = 'is.otif.cause'
     _description = 'Liste des anomalies'
@@ -99,24 +100,24 @@ class is_otif(osv.osv):
         'is_anomalie': fields.boolean('Existe Anomalie', readonly=True),
         'anomalie': fields.char('Anomalie', size=256, readonly=True),
     }
-    
+
     _defaults = {
         'is_anomalie': False,
     }
-        
+
 is_otif()
 
 class sale_order(osv.osv):
     _inherit = 'sale.order'
-    
+
     _columns = {
         'nb_confirmed': fields.integer('Confirmation number', readonly=True),
     }
-    
+
     _defaults = {
         'nb_confirmed': 0,
     }
-    
+
     #Le nouveau champ 'nb_confirmed' permet de savoir si la commande a déjà été validée ou pas
     #-> Il ne faut pas enregistrer une deuxième fois une commande déjà validée même si elle contient d'autres lignes
     def action_wait(self, cr, uid, ids, *args):
@@ -131,24 +132,24 @@ sale_order()
 
 class sale_order_line(osv.osv):
     _inherit = 'sale.order.line'
-    
+
     def is_product_tr(self, cr, uid, code_product, context=None):
         if code_product and code_product[:2] == 'TR':
             return True
         return False
-        
+
     def is_order_ec(self, cr, uid, order_type, context=None):
         if not order_type:
             return False
         if order_type != 'EC':
             return True
         return False
-    
+
     def insert_line_into_otif(self, cr, uid, ids, line, context=None):
         """ Insérer les lignes de commandes dans la table is_otif lors de la première validation des lignes de commandes
         """
         otif_obj = self.pool.get('is.otif')
-        if not self.is_product_tr(cr, uid, line.product_id.default_code, context): #or self.is_order_ec(cr, uid, line.order_id.sale_oder_type, context): 
+        if not self.is_product_tr(cr, uid, line.product_id.default_code, context): #or self.is_order_ec(cr, uid, line.order_id.sale_oder_type, context):
             #Ne pas prendre en compte les échantillions
             if line.order_id.sale_order_type!="sample":
                 vals = {
@@ -174,15 +175,15 @@ class sale_order_line(osv.osv):
                 }
                 new_id = otif_obj.create(cr, 1, vals, context=context)
         return True
-    
+
     #Lors de la première validation de la commande, il faut enregistrer les lignes dans OTIF
     def button_confirm(self, cr, uid, ids, context=None):
         for line in self.browse(cr, uid, ids, context=context):
             if line.order_id.nb_confirmed == 1:
-                self.insert_line_into_otif(cr, uid, ids, line, context)    
+                self.insert_line_into_otif(cr, uid, ids, line, context)
         res = super(sale_order_line, self).button_confirm(cr, uid, ids, context=context)
         return res
-    
+
 sale_order_line()
 
 
@@ -213,19 +214,19 @@ productAttPanif()
 
 class stock_picking(osv.osv):
     _inherit = 'stock.picking'
-    
+
     def update_line_otif(self, cr, uid, sale_line_id, move_id, delivery_date, qty_delivered, context=None):
         otif_obj = self.pool.get('is.otif')
         order_line_obj = self.pool.get('sale.order.line')
         move_obj = self.pool.get('stock.move')
-        
+
         search_ids = []
         otif_id = False
         create_from_move = False
-        
+
         if sale_line_id:
             search_ids = otif_obj.search(cr, uid, [('order_line_id','=',sale_line_id)], context=context)
-        
+
         vals = {
             'final_date': delivery_date,
             'qty_delivered': qty_delivered,
@@ -272,10 +273,10 @@ class stock_picking(osv.osv):
         #anomalie = self.format_anomalie(cr, uid, otif, create_from_move, context)
         #if anomalie:
         #    otif_obj.write(cr, uid, otif_id, {'is_anomalie': True, 'anomalie': anomalie})
-        
+
         return True
-            
-               
+
+
 
     #Méthode utilisée lors de la recherche des UM depuis la préparation de livraison (pour info)
     #-> Cette recherche prend plusieurs secondes
@@ -310,7 +311,7 @@ class stock_picking(osv.osv):
 #        if delivery_date != order_date or create_from_move:
 #            res.append("DECALEE")
 #        return res
-#    
+#
 #    def format_anomalie(self, cr, uid, otif, create_from_move, context=None):
 #        res = self.get_anomalie_picking(cr, uid, otif.initial_qty, otif.qty_delivered, otif.final_date, otif.initial_date, create_from_move, context)
 #        if res:
