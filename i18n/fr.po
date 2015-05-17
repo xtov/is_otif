@@ -1,0 +1,227 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+# 	* is_otif
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 6.0dev\n"
+"Report-Msgid-Bugs-To: support@openerp.com\n"
+"POT-Creation-Date: 2012-12-04 13:01+0000\n"
+"PO-Revision-Date: 2012-03-07 15:09+0000\n"
+"Last-Translator: Numérigraphe <Unknown>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2014-04-15 07:31+0000\n"
+"X-Generator: Launchpad (build 16976)\n"
+
+#. module: is_otif
+#: field:is.otif.cause,name:0
+msgid "Anomalie"
+msgstr "Anomalie"
+
+#. module: is_otif
+#: field:is.otif.cause,description:0
+msgid "Description"
+msgstr "Description"
+
+#. module: is_otif
+#: field:is.otif,order_id:0
+msgid "Order Number"
+msgstr "N°de commande"
+
+#. module: is_otif
+#: field:is.otif,order_line_id:0
+msgid "Order Line"
+msgstr "Ligne cde"
+
+#. module: is_otif
+#: field:is.otif,order_date:0
+msgid "Order Date"
+msgstr "Date cde"
+
+#. module: is_otif
+#: field:is.otif,order_time:0
+msgid "Order Time"
+msgstr "Heure cde"
+
+#. module: is_otif
+#: field:is.otif,partner_id:0
+msgid "Customer"
+msgstr "Nom du client"
+
+#. module: is_otif
+#: field:is.otif,partner_classification:0
+msgid "Classification"
+msgstr "Classification du client"
+
+#. module: is_otif
+#: field:is.otif,company_code:0
+msgid "Company Code"
+msgstr "Société EG"
+
+#. module: is_otif
+#: field:is.otif,product_code:0
+msgid "Product Code"
+msgstr "Code produit"
+
+#. module: is_otif
+#: field:is.otif,product_name:0
+msgid "Product Name"
+msgstr "Nom produit"
+
+#. module: is_otif
+#: field:is.otif,production_delay:0
+msgid "Production Delay"
+msgstr "Délai de fabrication produit"
+
+#. module: is_otif
+#: field:is.otif,initial_qty:0
+msgid "Initial Quantity"
+msgstr "Quantité commandée initiale"
+
+#. module: is_otif
+#: field:is.otif,qty_delivered:0
+msgid "Quantity Delivered"
+msgstr "Quantité livrée"
+
+#. module: is_otif
+#: field:is.otif,initial_date:0
+msgid "Initial shipping date"
+msgstr "Date initiale d'expédition"
+
+#. module: is_otif
+#: field:is.otif,final_date:0
+msgid "Final shipping date"
+msgstr "Date finale d'expédition"
+
+#. module: is_otif
+#: field:is.otif,cause_id:0
+msgid "Cause"
+msgstr "causes"
+
+#. module: is_otif
+#: field:is.otif,comment:0
+msgid "Comment"
+msgstr "Commentaire"
+
+#. module: is_otif
+#: field:is.otif,cost:0
+msgid "Cost"
+msgstr "coûts"
+
+#. module: is_otif
+#: field:is.otif,attent_panif:0
+msgid "Attente panif"
+msgstr "Attente panif"
+
+#. module: is_otif
+#: field:is.otif,date_attent_panif:0
+msgid "Date de levée attente panif"
+msgstr "Date de levée attente panif"
+
+#. module: is_otif
+#: field:is.otif,attent_quality:0
+msgid "Attente Qualité"
+msgstr "Attente Qualité"
+
+#. module: is_otif
+#: field:is.otif,date_attent_quality:0
+msgid "Date de levée attente Qualité"
+msgstr "Date de levée attente Qualité"
+
+#. module: is_otif
+#: field:is.otif,blocage_total:0
+msgid "Blocage Total"
+msgstr "Blocage Total"
+
+#. module: is_otif
+#: field:is.otif,date_blocage_total:0
+msgid "Date levée du blocage total"
+msgstr "Date levée du blocage total"
+
+#. module: is_otif
+#: field:is.otif,blocage_production:0
+msgid "Blocage Production"
+msgstr "Blocage Production"
+
+#. module: is_otif
+#: field:is.otif,date_blocage_prod:0
+msgid "Date levée du blocage production"
+msgstr "Date levée du blocage production"
+
+#. module: is_otif
+#: field:is.otif,blocage_exped:0
+msgid "Blocage Expédition"
+msgstr "Blocage Expédition"
+
+#. module: is_otif
+#: field:is.otif,date_blocage_exped:0
+msgid "Date levée du blocage"
+msgstr "Date levée du blocage"
+
+#. module: is_otif
+#: field:is.otif,decaled_order:0
+msgid "Decaled Order"
+msgstr "Commande décalée"
+
+#. module: is_otif
+#: field:is.otif,scind_cmd:0
+msgid "Commande Scindée"
+msgstr "Commande Scindée"
+
+#. module: is_otif
+#: field:is.otif,sold_cmd:0
+msgid "Commande Soldée"
+msgstr "Commande Soldée"
+
+#. module: is_otif
+#: field:is.otif,production_date:0
+msgid "Production Date"
+msgstr "Date génération OF"
+
+#. module: is_otif
+#: field:is.otif,production_num:0
+msgid "Production number"
+msgstr "N° OF"
+
+#. module: is_otif
+#: field:is.otif,initial_production_date:0
+msgid "Initial production Date"
+msgstr "Date début fabrication"
+
+#. module: is_otif
+#: field:is.otif,final_production_date:0
+msgid "Finale production date"
+msgstr "Date fin fabrication"
+
+#. module: is_otif
+#: field:is.otif,control:0
+msgid "Control"
+msgstr "Contrôle"
+
+#. module: is_otif
+#: field:is.otif,control_delay:0
+msgid "Control Delay"
+msgstr "Délai de contrôle"
+
+#. module: is_otif
+#: field:is.otif,control_product_date:0
+msgid "Produit contrôlé libéré le"
+msgstr "Produit contrôlé libéré le"
+
+#. module: is_otif
+#: field:is.otif,is_anomalie:0
+msgid "Existe Anomalie"
+msgstr "Anomalie"
+
+#. module: is_otif
+#: field:is.otif,anomalie:0
+msgid "Anomalie"
+msgstr "Anomalie"
+
+#. module: is_otif
+#: field:sale.order,nb_confirmed:0
+msgid "Confirmation number"
+msgstr "Nombre de confirmation"

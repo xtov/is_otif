@@ -1,0 +1,170 @@
+<openerp>
+    <data>
+
+        <menuitem id="menu_is_otif" name="Analyses OTIF"
+            parent="base.menu_base_partner" sequence="25" />
+
+
+        <record id="view_is_otif_cause_tree" model="ir.ui.view">
+            <field name="name">is.otif.cause.tree</field>
+            <field name="model">is.otif.cause</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Causes OTIF" >
+                    <field name="name"/>
+                    <field name="description"/>
+                </tree>
+            </field>
+        </record>
+        <record id="view_is_otif_cause_form" model="ir.ui.view">
+            <field name="name">is.otif.cause.form</field>
+            <field name="model">is.otif.cause</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Causes OTIF">
+                    <group colspan="4" col="2">
+                        <field name="name"/>
+                        <field name="description"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+        <record id="action_is_otif_cause_form" model="ir.actions.act_window">
+            <field name="name">Causes OTIF</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">is.otif.cause</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem action="action_is_otif_cause_form"  id="menu_action_is_otif_cause_form"  parent="menu_is_otif"  sequence="20" />
+
+
+
+
+        <record id="view_is_otif_tree" model="ir.ui.view">
+            <field name="name">is.otif.tree</field>
+            <field name="model">is.otif</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Analyses OTIF" >
+                    <field name="order_date"/>
+                    <field name="order_time"/>
+                    <field name="order_id"/>
+                    <field name="order_line_id"/>
+                    <field name="partner_id"/>
+                    <!--<field name="partner_classification"/>
+                    <field name="product_code" />
+                    <field name="product_name" />-->
+
+                    <field name="initial_date" />
+                    <field name="final_date" />
+
+                    <field name="initial_qty" />
+                    <field name="qty_delivered" />
+
+                    <field name="is_anomalie" />
+                    <field name="anomalie" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_is_otif_form" model="ir.ui.view">
+            <field name="name">is.otif.form</field>
+            <field name="model">is.otif</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Analyses OTIF">
+                        <field name="order_id"/>
+                        <field name="order_line_id"/>
+                        
+                        <field name="order_date" />
+                        <field name="order_time"/>
+                        
+                        <field name="partner_id"/>
+                        <field name="partner_classification"/>
+                        <field name="company_code"/>
+                        
+                        <field name="product_code"/>
+                        <field name="product_name" />
+
+
+                        <notebook colspan="4">
+                            <page string="Informations">
+                                <group colspan="4" col="4">
+
+
+                                  <separator string="Commande / Livraison" colspan="4"/>
+
+                                  <field name="initial_qty"/>
+                                  <field name="qty_delivered"/>
+
+                                  <field name="initial_date"/>
+                                  <field name="final_date"/>
+
+                                  <separator string="Attente / Blocage" colspan="4"/>
+
+                                  <field name="waiting_panif"/>
+                                  <field name="waiting_panif_date" />
+
+                                  <field name="waiting_quality"/>
+                                  <field name="waiting_quality_date"/>
+
+                                  <field name="blocage_total"/>
+                                  <field name="date_blocage_total"/>
+
+                                  <field name="blocage_production"/>
+                                  <field name="date_blocage_prod"/>
+
+                                  <field name="blocage_exped"/>
+                                  <field name="date_blocage_exped" />
+
+                                  <separator string="Production" colspan="4"/>
+
+                                  <field name="production_num"/>
+                                  <field name="production_date"/>
+
+                                  <field name="initial_production_date"/>
+                                  <field name="produce_delay"/>
+                                  <field name="final_production_date"/>
+
+                                  <separator string="Contrôle" colspan="4"/>
+
+                                  <field name="control"/>
+                                  <field name="control_delay" />
+                                  <field name="control_product_date"/>
+                                </group>
+                            </page>
+
+                            <page string="Anomalies">
+                                <group colspan="4" col="2">
+
+                                  <field name="decaled_order"/>
+                                  <field name="scind_cmd"/>
+                                  <field name="sold_cmd"/>
+
+                                  <field name="is_anomalie"/>
+                                  <field name="anomalie"/>
+                                  <field name="comment"/>
+                                  <field name="cost"/>
+                                  <field name="cause_id"/>
+                                </group>
+                            </page>
+                        </notebook>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_is_otif_form" model="ir.actions.act_window">
+            <field name="name">Analyses OTIF</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">is.otif</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem 	action="action_is_otif_form" 
+        			id="menu_action_is_otif_form" 
+        			parent="menu_is_otif" 
+        			sequence="1" />
+
+    </data>
+</openerp>
