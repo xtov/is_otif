@@ -215,7 +215,7 @@ productAttPanif()
 class stock_picking(osv.osv):
     _inherit = 'stock.picking'
 
-    def update_line_otif(self, cr, uid, sale_line_id, move_id, delivery_date, qty_delivered, context=None):
+    def update_line_otif(self, cr, uid, sale_line_id, move_id, final_date, qty_delivered, context=None):
         otif_obj = self.pool.get('is.otif')
         order_line_obj = self.pool.get('sale.order.line')
         move_obj = self.pool.get('stock.move')
@@ -228,7 +228,7 @@ class stock_picking(osv.osv):
             search_ids = otif_obj.search(cr, uid, [('order_line_id','=',sale_line_id)], context=context)
 
         vals = {
-            'final_date': delivery_date,
+            'final_date': final_date,
             'qty_delivered': qty_delivered,
         }
 
@@ -236,9 +236,6 @@ class stock_picking(osv.osv):
         if search_ids:
             otif_id = search_ids[0]
             otif_obj.write(cr, uid, otif_id, vals, context=context)
-            #otif_obj.set_anomalie(cr, uid, otif_id, context=context)
-
-
         else:
             move = move_obj.browse(cr, uid, move_id, context=context)
             vals.update({
@@ -251,7 +248,6 @@ class stock_picking(osv.osv):
                         'company_code': move.company_id.name,
                         'product_code': move.product_id.default_code,
                         'product_name': move.product_id.name,
-                        #'initial_qty': move.sale_line_id.product_uom_qty,
                         'initial_qty': 0,
                         'initial_date': move.sale_line_id.order_id.date_depart
                 })
@@ -264,61 +260,41 @@ class stock_picking(osv.osv):
                         otif_obj.write(cr, uid, otif_id, vals, context=context)
                     create_from_move = True
 
-        #Calcul de l'anomalie
-        #otif = otif_obj.browse(cr, uid, otif_id, context=context)
-        #otif_obj.write(cr, 1, otif_id, {'anomalie': 'Je ne sais pas'})
-
-        #""" update la ligne mentionnant l'anomalie """
-        #otif = otif_obj.browse(cr, uid, otif_id, context=context)
-        #anomalie = self.format_anomalie(cr, uid, otif, create_from_move, context)
-        #if anomalie:
-        #    otif_obj.write(cr, uid, otif_id, {'is_anomalie': True, 'anomalie': anomalie})
-
         return True
 
 
 
-    #Méthode utilisée lors de la recherche des UM depuis la préparation de livraison (pour info)
-    #-> Cette recherche prend plusieurs secondes
-    #def action_assign_delivery(self, cr, uid, ids, context=None):
-    #    print "action_assign_delivery:Debut"
-    #    res = super(stock_picking, self).action_assign_delivery(cr, uid, ids, context=context)
-    #    print "action_assign_delivery:Fin"
-    #    return res
 
 
-
-    #Enregistrement dans OTIF des quantités livrées lors de la validation de la livraison
-    def do_partial(self, cr, uid, ids, partial_datas, context=None):
-        move_obj = self.pool.get('stock.move')
-        for item in partial_datas.keys():
-            if len(item.split('move')) > 1:
-                move = move_obj.read(cr, uid, int(item.split('move')[1]), ['sale_line_id', 'date_expected'], context=context)
-                sale_line_id = move['sale_line_id'] and move['sale_line_id'][0] or False
-                self.update_line_otif(cr, uid, sale_line_id, int(item.split('move')[1]), partial_datas['delivery_date'], partial_datas[item]['product_qty'], context=context)
-
-        #Je désactive le traitement standard de la validation de la livraison pour éviter l'attente de 2mn lié à l'impression du rapport Jasper
-        #res=True
-        res = super(stock_picking, self).do_partial(cr, uid, ids, partial_datas, context=context)
+    #Action executee pour les livraison partielles ou les lignes annulees
+    def action_done_picking_out(self, cr, uid, ids, context=None):
+        otif_obj = self.pool.get('is.otif')
+        for picking in self.browse(cr, uid, ids, context=context):
+            for move in picking.move_lines:
+                sale_line_id=move.sale_line_id.id
+                qty_delivered=0
+                if move.delivery_state=='delivered':
+                    qty_delivered=move.product_qty
+                final_date=move.sale_line_id.order_id.date_order,
+                self.update_line_otif(cr, uid, sale_line_id, move.id, final_date, qty_delivered, context=context)
+        res = super(stock_picking, self).action_done_picking_out(cr, uid, ids, context=context)
         return res
 
 
-#    def get_anomalie_picking(self, cr, uid, order_qty, move_qty, delivery_date, order_date, create_from_move, context=None):
-#        """ Anomalies détectées lors de la livraison """
-#        res = []
-#        if order_qty != move_qty or create_from_move:
-#            res.append("SOLDEE")
-#        if delivery_date != order_date or create_from_move:
-#            res.append("DECALEE")
-#        return res
-#
-#    def format_anomalie(self, cr, uid, otif, create_from_move, context=None):
-#        res = self.get_anomalie_picking(cr, uid, otif.initial_qty, otif.qty_delivered, otif.final_date, otif.initial_date, create_from_move, context)
-#        if res:
-#            if len(res) == 1:
-#                return otif.anomalie
-#            else:
-#                return res[0] + ', ' + res[1]
-#        return ""
+
+    #Mise à jour de la date de livaison dans is_otif pour toutes les lignes (livrées ou pas)
+    def action_process(self, cr, uid, ids, context=None):
+        otif_obj = self.pool.get('is.otif')
+        for picking in self.browse(cr, uid, ids, context=context):
+            for move in picking.move_lines:
+                sale_line_id=move.sale_line_id.id
+                qty_delivered=0
+                if move.delivery_state=='delivered':
+                    qty_delivered=move.product_qty
+                final_date=move.sale_line_id.order_id.date_order,
+                self.update_line_otif(cr, uid, sale_line_id, move.id, final_date, qty_delivered, context=context)
+        res = super(stock_picking, self).action_process(cr, uid, ids, context=context)
+        return res
+
 
 stock_picking()
