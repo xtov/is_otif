@@ -9,7 +9,6 @@ from tools.translate import _
 import netsvc
 
 
-
 class is_otif_cause(osv.osv):
     _name = 'is.otif.cause'
     _description = 'Liste des anomalies'

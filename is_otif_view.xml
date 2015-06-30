@@ -4,6 +4,8 @@
         <menuitem id="menu_is_otif" name="Analyses OTIF"
             parent="base.menu_base_partner" sequence="25" />
 
+        <menuitem id="menu_mrp_is_otif" name="Analyses OTIF"
+            parent="base.menu_mrp_root" sequence="10" />
 
         <record id="view_is_otif_cause_tree" model="ir.ui.view">
             <field name="name">is.otif.cause.tree</field>
@@ -161,10 +163,15 @@
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
         </record>
-        <menuitem 	action="action_is_otif_form" 
-        			id="menu_action_is_otif_form" 
-        			parent="menu_is_otif" 
-        			sequence="1" />
+        <menuitem action="action_is_otif_form" 
+            id="menu_action_is_otif_form" 
+            parent="menu_is_otif" 
+            sequence="1" />
+
+        <menuitem action="action_is_otif_form" 
+            id="menu_action_mrp_is_otif_form" 
+            parent="menu_mrp_is_otif" 
+            sequence="1" />
 
     </data>
 </openerp>

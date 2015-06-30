@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-
 {
     'name': 'Eurogerm OTIF',
     'version': '1.0',
